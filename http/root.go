@@ -15,7 +15,6 @@ func Serve() {
     })
     app.Static("/public", "./res/public/")
 
-
     app.Get("/admin", func(c *fiber.Ctx) error {
         return c.SendString("Welcome to admin page")
     })
