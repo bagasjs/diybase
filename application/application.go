@@ -5,8 +5,8 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
-	"github.com/bagasjs/diy-base/application/repository"
-	"github.com/bagasjs/diy-base/application/service"
+	"github.com/bagasjs/diybase/application/repository"
+	"github.com/bagasjs/diybase/application/service"
 )
 
 type Application struct {

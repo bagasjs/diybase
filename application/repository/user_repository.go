@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/bagasjs/diy-base/application/entity"
-	"github.com/bagasjs/diy-base/application/model"
+	"github.com/bagasjs/diybase/application/entity"
+	"github.com/bagasjs/diybase/application/model"
 )
 
 type UserRepository interface {

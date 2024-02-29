@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/bagasjs/diy-base/http"
+	"github.com/bagasjs/diybase/http"
 	"github.com/spf13/cobra"
 )
 

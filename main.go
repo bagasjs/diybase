@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/bagasjs/diy-base/cmd"
+	"github.com/bagasjs/diybase/cmd"
 )
 
 func main() {

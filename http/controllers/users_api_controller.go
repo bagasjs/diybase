@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/bagasjs/diy-base/application/service"
+	"github.com/bagasjs/diybase/application/service"
 	"github.com/gofiber/fiber/v2"
 )
 

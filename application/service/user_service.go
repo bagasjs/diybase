@@ -3,8 +3,8 @@ package service
 import (
 	"net/http"
 
-	"github.com/bagasjs/diy-base/application/model"
-	"github.com/bagasjs/diy-base/application/repository"
+	"github.com/bagasjs/diybase/application/model"
+	"github.com/bagasjs/diybase/application/repository"
 )
 
 type UserService struct {

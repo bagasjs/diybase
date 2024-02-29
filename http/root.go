@@ -6,9 +6,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 
-	"github.com/bagasjs/diy-base/application"
-	"github.com/bagasjs/diy-base/http/controllers"
 	_ "github.com/mattn/go-sqlite3"
+
+    "github.com/bagasjs/diybase/application"
+    "github.com/bagasjs/diybase/http/controllers"
 )
 
 func Serve() {
