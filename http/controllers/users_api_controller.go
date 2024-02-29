@@ -12,17 +12,45 @@ type UserAPIController struct {
 }
 
 func (controller *UserAPIController) allUsers(c *fiber.Ctx) error {
-    _, error := controller.Service.List()
+    users, error := controller.Service.List()
     if error != nil {
         return c.JSON(fiber.Map {
-            "Code" : http.StatusBadRequest,
+            "message" : error.Message,
+            "code" : error.Code,
+            "data" : nil,
         })
     }
-    return c.Render("index", fiber.Map{})
+    return c.JSON(fiber.Map {
+        "message" : "Users fetched",
+        "code" : http.StatusOK,
+        "data" : users,
+    })
 }
 
 func (controller *UserAPIController) viewUser(c *fiber.Ctx) error {
-    return c.SendString("You are viewing an user")
+    userID, err := c.ParamsInt("id")
+    if err != nil {
+        return c.JSON(fiber.Map {
+            "message" : "Parameter ID should type of integer",
+            "code" : http.StatusBadRequest,
+            "data" : nil,
+        })
+    }
+
+    user, error := controller.Service.Find(userID)
+    if error != nil {
+        return c.JSON(fiber.Map {
+            "message" : error.Message,
+            "code" : error.Code,
+            "data" : nil,
+        })
+    }
+
+    return c.JSON(fiber.Map {
+        "message" : "Users fetched",
+        "code" : http.StatusOK,
+        "data" : user,
+    })
 }
 
 func (controller *UserAPIController) storeUser(c *fiber.Ctx) error {
