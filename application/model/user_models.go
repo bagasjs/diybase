@@ -1,7 +1,7 @@
 package model
 
 type CreateUserModel struct {
-    ID int `json:"id"`
+    ID uint `json:"id"`
     Name string `json:"name"`
     Email string `json:"email"`
     Password string `json:"password"`
@@ -14,7 +14,7 @@ type UpdateUserModel struct {
 }
 
 type GeneralUserModel struct {
-    ID int `json:"id"`
+    ID uint `json:"id"`
     Name string `json:"name"`
     Email string `json:"email"`
 }

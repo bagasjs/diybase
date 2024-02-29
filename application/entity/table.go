@@ -1,6 +1,7 @@
 package entity
 
 type Table struct {
-    ID int
+    ID uint
     Name string
+    fields []Field
 }

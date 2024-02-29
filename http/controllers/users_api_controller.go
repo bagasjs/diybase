@@ -3,16 +3,16 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/bagasjs/diy-base/app/service"
+	"github.com/bagasjs/diy-base/application/service"
 	"github.com/gofiber/fiber/v2"
 )
 
 type UserAPIController struct {
-    Service *service.UserService
+    userService *service.UserService
 }
 
 func (controller *UserAPIController) allUsers(c *fiber.Ctx) error {
-    users, error := controller.Service.List()
+    users, error := controller.userService.List()
     if error != nil {
         return c.JSON(fiber.Map {
             "message" : error.Message,
@@ -20,6 +20,7 @@ func (controller *UserAPIController) allUsers(c *fiber.Ctx) error {
             "data" : nil,
         })
     }
+
     return c.JSON(fiber.Map {
         "message" : "Users fetched",
         "code" : http.StatusOK,
@@ -37,7 +38,7 @@ func (controller *UserAPIController) viewUser(c *fiber.Ctx) error {
         })
     }
 
-    user, error := controller.Service.Find(userID)
+    user, error := controller.userService.Find(userID)
     if error != nil {
         return c.JSON(fiber.Map {
             "message" : error.Message,
@@ -71,4 +72,10 @@ func (controller *UserAPIController) Route(r fiber.Router) {
     r.Get("/:id", controller.viewUser)
     r.Put("/:id", controller.updateUser)
     r.Delete("/:id", controller.destroyUser)
+}
+
+func NewUsersAPIController(userService *service.UserService) *UserAPIController {
+    return &UserAPIController {
+        userService: userService,
+    }
 }

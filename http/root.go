@@ -3,27 +3,37 @@ package http
 import (
 	"log"
 
-	"github.com/bagasjs/diy-base/http/controllers"
 	"github.com/gofiber/fiber/v2"
-    "github.com/gofiber/template/html/v2"
+	"github.com/gofiber/template/html/v2"
+
+	"github.com/bagasjs/diy-base/application"
+	"github.com/bagasjs/diy-base/http/controllers"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func Serve() {
+    config := application.ApplicationConfig {}
+    var app application.Application
+    if err := app.Init(config); err != nil {
+        log.Fatal(err)
+    }
+    defer app.Destroy()
+
     engine := html.New("./res/views/", ".html")
-    app := fiber.New(fiber.Config {
+    rt := fiber.New(fiber.Config {
         Views: engine,
     })
-    app.Static("/public", "./res/public/")
+    rt.Static("/public", "./res/public/")
 
-    app.Get("/admin", func(c *fiber.Ctx) error {
+    rt.Get("/admin", func(c *fiber.Ctx) error {
         return c.SendString("Welcome to admin page")
     })
 
-    userAdminController := controllers.UserAdminController{}
-    app.Route("/admin/users", userAdminController.Route)
+    // Define controllers here
+    userAPIController := controllers.NewUsersAPIController(app.UserService)
 
-    userAPIController := controllers.UserAPIController{}
-    app.Route("/api/users", userAPIController.Route)
+    // Register controller to router here
+    rt.Route("/api/users", userAPIController.Route)
 
-    log.Fatal(app.Listen(":8080"))
+    log.Fatal(rt.Listen(":8080"))
 }

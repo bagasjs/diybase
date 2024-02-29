@@ -12,8 +12,9 @@ var rootCmd = &cobra.Command {
 }
 
 func Execute() {
-    rootCmd.AddCommand(serveCmd)
     rootCmd.AddCommand(initCmd)
+    rootCmd.AddCommand(migrateCmd)
+    rootCmd.AddCommand(serveCmd)
 
     if err := rootCmd.Execute(); err != nil {
         log.Fatal(err)
