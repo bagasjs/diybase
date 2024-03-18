@@ -6,12 +6,12 @@ type Field struct {
     Type string
     Length uint
 
-    Nullable bool
-    Unique bool
-    PrimaryKey bool
-    AutoIncrement bool
+    IsNullable bool
+    IsUnique bool
+    IsPrimaryKey bool
+    IsAutoIncrement bool
 
-    ForeignKey bool
+    IsForeignKey bool
     Reference string
     Related string
     OnDelete string

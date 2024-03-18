@@ -10,7 +10,9 @@ import (
 )
 
 var migrationFileNames = []string {
-    "./migrations/sqlite3/create_users_table.sql",
+    "./migrations/sqlite3/create_internal_users_table.sql",
+    "./migrations/sqlite3/create_internal_tables_table.sql",
+    "./migrations/sqlite3/create_internal_fields_table.sql",
 }
 
 func onMigrate(cmd *cobra.Command, args []string) {
