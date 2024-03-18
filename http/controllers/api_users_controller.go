@@ -3,7 +3,8 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/bagasjs/diybase/application/service"
+	"github.com/bagasjs/diybase/app/model"
+	"github.com/bagasjs/diybase/app/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -55,7 +56,28 @@ func (controller *UserAPIController) viewUser(c *fiber.Ctx) error {
 }
 
 func (controller *UserAPIController) storeUser(c *fiber.Ctx) error {
-    return c.SendString("New user has been stored")
+    request := model.CreateUserRequest{}
+    if err := c.BodyParser(&request); err != nil {
+        return c.JSON(fiber.Map{
+            "message" : err.Error(),
+            "code" : http.StatusBadRequest,
+            "data" : nil,
+        })
+    }
+    err := controller.userService.Create(request)
+    if err != nil {
+        return c.JSON(fiber.Map {
+            "message" : err.Message,
+            "code" : err.Code,
+            "data" : nil,
+        })
+    }
+
+    return c.JSON(fiber.Map{
+        "message" : "Creating user successful",
+        "code" : http.StatusOK,
+        "data" : nil,
+    })
 }
 
 func (controller *UserAPIController) updateUser(c *fiber.Ctx) error {

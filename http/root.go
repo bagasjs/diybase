@@ -8,7 +8,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
-    "github.com/bagasjs/diybase/application"
+    "github.com/bagasjs/diybase/app"
     "github.com/bagasjs/diybase/http/controllers"
 )
 

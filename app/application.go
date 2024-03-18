@@ -5,13 +5,15 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
-	"github.com/bagasjs/diybase/application/repository"
-	"github.com/bagasjs/diybase/application/service"
+	"github.com/bagasjs/diybase/app/repository"
+	"github.com/bagasjs/diybase/app/service"
 )
 
 type Application struct {
     UserRepository repository.UserRepository
     UserService *service.UserService
+
+    // Private members
     db *sql.DB
 }
 
@@ -28,7 +30,6 @@ func (app *Application) Init(config ApplicationConfig) error {
     app.db = db
 
     app.UserRepository = repository.NewUserRepository(app.db)
-
     app.UserService = service.NewUserService(app.UserRepository)
 
     return nil
