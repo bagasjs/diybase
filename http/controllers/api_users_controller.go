@@ -56,7 +56,7 @@ func (controller *UserAPIController) viewUser(c *fiber.Ctx) error {
 }
 
 func (controller *UserAPIController) storeUser(c *fiber.Ctx) error {
-    request := model.CreateUserRequest{}
+    request := model.CreateUpdateUserRequest{}
     if err := c.BodyParser(&request); err != nil {
         return c.JSON(fiber.Map{
             "message" : err.Error(),
@@ -81,11 +81,62 @@ func (controller *UserAPIController) storeUser(c *fiber.Ctx) error {
 }
 
 func (controller *UserAPIController) updateUser(c *fiber.Ctx) error {
-    return c.SendString("New user has been created")
+    id, err := c.ParamsInt("id")
+    if err != nil {
+        return c.JSON(fiber.Map{
+            "message" : err.Error(),
+            "code" : http.StatusBadRequest,
+            "data" : nil,
+        })
+    }
+
+    request := model.CreateUpdateUserRequest{}
+    if err := c.BodyParser(&request); err != nil {
+        return c.JSON(fiber.Map{
+            "message" : err.Error(),
+            "code" : http.StatusBadRequest,
+            "data" : nil,
+        })
+    }
+
+    if err := controller.userService.Update(id, request); err != nil { 
+        return c.JSON(fiber.Map {
+            "message" : err.Message,
+            "code" : err.Code,
+            "data" : nil,
+        })
+    }
+
+    return c.JSON(fiber.Map{
+        "message" : "Updating user successful",
+        "code" : http.StatusOK,
+        "data" : nil,
+    })
 }
 
 func (controller *UserAPIController) destroyUser(c *fiber.Ctx) error {
-    return c.SendString("You are deleting an user")
+    id, err := c.ParamsInt("id")
+    if err != nil {
+        return c.JSON(fiber.Map{
+            "message" : err.Error(),
+            "code" : http.StatusBadRequest,
+            "data" : nil,
+        })
+    }
+
+    if err := controller.userService.Destroy(id); err != nil { 
+        return c.JSON(fiber.Map {
+            "message" : err.Message,
+            "code" : err.Code,
+            "data" : nil,
+        })
+    }
+
+    return c.JSON(fiber.Map{
+        "message" : "Destroying user successful",
+        "code" : http.StatusOK,
+        "data" : nil,
+    })
 }
 
 func (controller *UserAPIController) Route(r fiber.Router) {

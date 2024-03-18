@@ -32,6 +32,8 @@ func (service *UserService) List() ([]model.GeneralUserResponse, *core.Error) {
             ID: user.ID,
             Name: user.Name,
             Email: user.Email,
+            Created: user.Created,
+            Updated: user.Updated,
         }
         usersModels = append(usersModels, userModel)
     }
@@ -56,7 +58,7 @@ func (service *UserService) Find(id int) (model.GeneralUserResponse, *core.Error
     return response, nil
 }
 
-func (service *UserService) Create(request model.CreateUserRequest) *core.Error {
+func (service *UserService) Create(request model.CreateUpdateUserRequest) *core.Error {
     if strings.Compare(request.Password, request.PasswordConfirmation) != 0 {
         return core.NewError(http.StatusForbidden, "Password and it's confirmation should be equal")
     }
@@ -74,11 +76,27 @@ func (service *UserService) Create(request model.CreateUserRequest) *core.Error 
     return nil
 }
 
-func (service *UserService) Update(id int, data model.UpdateUserRequest) *core.Error {
-    return core.NewError(http.StatusNotImplemented, "Unimplemented UserService.Update()")
+func (service *UserService) Update(id int, request model.CreateUpdateUserRequest) *core.Error {
+    if strings.Compare(request.Password, request.PasswordConfirmation) != 0 {
+        return core.NewError(http.StatusForbidden, "Password and it's confirmation should be equal")
+    }
+
+    entt := entity.User {
+        Name: request.Name,
+        Email: request.Email,
+        Password: request.Password,
+    }
+    if err := service.userRepository.Update(id, entt); err != nil {
+        return err
+    }
+
+    return nil
 }
 
 func (service *UserService) Destroy(id int) *core.Error {
-    return core.NewError(http.StatusNotImplemented, "Unimplemented UserService.Destroy()")
+    if err := service.userRepository.Destroy(id); err != nil {
+        return err
+    }
+    return nil
 }
 
