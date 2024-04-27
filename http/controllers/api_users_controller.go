@@ -48,11 +48,7 @@ func (controller *UserAPIController) viewUser(c *fiber.Ctx) error {
         })
     }
 
-    return c.JSON(fiber.Map {
-        "message" : "Users fetched",
-        "code" : http.StatusOK,
-        "data" : user,
-    })
+    return c.JSON(user)
 }
 
 func (controller *UserAPIController) storeUser(c *fiber.Ctx) error {

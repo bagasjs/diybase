@@ -55,6 +55,8 @@ func (service *UserService) Find(id int) (model.GeneralUserResponse, *core.Error
     response.Name = users[0].Name
     response.Email = users[0].Email
     response.ID = users[0].ID
+    response.Created = users[0].Created
+    response.Updated = users[0].Updated
     return response, nil
 }
 
